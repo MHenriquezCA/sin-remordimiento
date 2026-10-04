@@ -1,9 +1,9 @@
-CONTEXTO — SIN REMORDIMIENTOS
-Versión: 1.0 · Fecha: 04/10/2026
+CONTEXTO — SIN REMORDIMIENTO
+Versión: 1.1 · Fecha: 04/10/2026
 Solo información específica de este proyecto.
 Los universales (stack, metodología, bugs, frontend) están en 01, 02, 03, 05 y 06.
 ═══════════════════════════════════════════════════════════════════
- 
+
 DATOS DEL PROYECTO
 ───────────────────────────────────────────────────────────────────
 Nombre:   Sin Remordimiento — "Sazón Celestial" (RESUELTO 04/10/2026)
@@ -12,112 +12,163 @@ Nombre:   Sin Remordimiento — "Sazón Celestial" (RESUELTO 04/10/2026)
 Giro:     Comida casera — sopas los fines de semana
 Relación: Proyecto hermano de Sueños al Horno (MHenriquezCA/suenosalhorno).
           Infraestructura y objetivos SEPARADOS. Solo comparten estándar.
-Dev:      Manuel HenrIquez
+Dev:      Manuel Henríquez
 Repo:     github.com/MHenriquezCA/sin-remordimiento (PÚBLICO)
 Local:    C:\Users\manue\Documents\Devs\web\sin-remordimiento
-Rama:     master
-Estado:   Sprint 0 — Fundación (repo recién creado, sin código)
+Project:  github.com/orgs/MHenriquezCA/projects/29 (issues se crean a mano)
+Producción: https://mhenriquezca.github.io/sin-remordimiento/
 Dirección física: Diagonal al portón negro de Villa Sur
- 
+
 ═══════════════════════════════════════════════════════════════════
- 
-ARQUITECTURA (decisión D1 — RESUELTA 04/10/2026)
+
+ARQUITECTURA (D1 — RESUELTA 04/10/2026)
 ───────────────────────────────────────────────────────────────────
 Fase actual: SITIO ESTÁTICO (previo a Fase I). Sin backend.
-Stack:
-  Vite (instalado, no CDN) + Tailwind CSS v4 vía @tailwindcss/vite
-  JavaScript vanilla (sin Alpine por ahora; entra si se justifica)
-  HTML5 semántico, Mobile First, tokens de marca con @theme
-Descartados:
-  Tailwind por CDN → no apto para producción, fuera del estándar.
-  CSS puro → obliga a reescribir al migrar a Laravel.
-Razón: el proyecto escalará a panel admin con inventario (Laravel
-  Fase I). Tailwind v4 + @theme se porta directo a Blade.
- 
-Hosting: GitHub Pages
-Deploy:  GitHub Actions — push a master → npm ci → npm run build
-         → publica dist/ en Pages.
-         dist/ en .gitignore (el build NO se versiona; difiere de
-         Sueños al Horno porque aquí el CI sí tiene Node).
-Vite base: '/sin-remordimiento/' mientras se sirva desde
-         mhenriquezca.github.io. Con dominio propio → base: '/'.
- 
-Entorno local (EXCEPCIÓN al estándar, justificada 04/10/2026):
-  Windows · C:\Users\manue\Documents\Devs\web\<carpeta del clone>
+Stack: Vite 8.3.2 + Tailwind CSS 4.3.3 (@tailwindcss/vite), instalados.
+       JavaScript vanilla. HTML5 semántico, Mobile First, tokens @theme.
+Descartados: Tailwind CDN (no apto producción) · CSS puro (reescritura
+       al migrar a Laravel).
+Hosting: GitHub Pages, build_type=workflow (activado vía gh api).
+Deploy:  .github/workflows/deploy.yml — push a master → Node 22 → npm ci
+         → npm run build → upload-pages-artifact → deploy-pages.
+         Acciones: checkout@v6, setup-node@v6, configure-pages@v6,
+         upload-pages-artifact@v5, deploy-pages@v5 (Node 24 nativo).
+         dist/ en .gitignore. Primer deploy: verde, 34 s.
+Vite base: '/sin-remordimiento/'. Con dominio propio → '/'.
+Barrera pre-merge (no hay tests): npm run build + npm run preview.
+
+Entorno local (EXCEPCIÓN justificada 04/10/2026):
+  Windows · Git Bash · Node 22.22.0 de Laragon (herramienta global
+  justificada) · npm 10.9.4.
   Razón: sitio estático sin PHP, BD ni servicios. WSL2 no aporta nada.
-  Node 22 LTS global (v22.22.0) · npm 10.9.4 · terminal Git Bash.
-  CI con node-version: 22 (misma versión mayor que local).
-  .gitattributes: * text=auto eol=lf (Actions corre en Linux).
-  Dev server con --host (BUG #18) para pruebas en Honor X8c.
   Al migrar a Laravel Fase I: el proyecto pasa a Sail/WSL2 (~/).
- 
+  Dev: npm run dev (--host). Honor X8c por la IP Wi-Fi 192.168.10.10.
+  Formato: .editorconfig (4 espacios, LF, UTF-8; requiere extensión
+  EditorConfig en VS Code) + .gitattributes (* text=auto eol=lf).
+
 ═══════════════════════════════════════════════════════════════════
- 
-IDENTIDAD DE MARCA (a validar con el logo final)
+
+ESTRUCTURA ACTUAL
 ───────────────────────────────────────────────────────────────────
-Logo original: medallón redondo rojo con borde dorado, espigas de
-  trigo doradas, mascota nube con gorro de chef y aureola, tenedor
-  con hamburguesa, cinta "Sin Remordimiento" + "Sazón Celestial".
-Logo requerido: mismo medallón, SIN hamburguesa → plato de sopa
-  humeante en su lugar. Recrear en SVG.
-Paleta tentativa (extraída del flyer, confirmar):
-  Rojo medallón · Dorado borde/espigas · Carbón #2B2B2B (fondo logo)
-  · Blanco nube · Tonos atardecer (cielo del flyer)
+.github/workflows/deploy.yml
+docs/  SIN_REMORDIMIENTO_CONTEXTO.txt · starter-kit-docker-wsl2-laravel.md
+       brand/flyer-2026-10-04.jpeg · logo-original-2026.png
+             · logo-v1-sin-optimizar.svg   (referencia, fuera del build)
+public/ logo.svg · favicon.svg · apple-touch-icon.png   (rama #2)
+src/   main.js · styles/app.css (@import "tailwindcss")
+index.html · vite.config.js · package.json · README.md
+
+═══════════════════════════════════════════════════════════════════
+
+IDENTIDAD DE MARCA
+───────────────────────────────────────────────────────────────────
+Logo VIGENTE: public/logo.svg (aprobado 04/10/2026).
+  Medallón rojo, doble aro dorado, espigas, nube chef con aureola y
+  guiño, plato de sopa humeante (sin hamburguesa).
+  Texto convertido a trazos: Poppins Bold (nombre) + Lora Bold
+  Italic (subtítulo). Optimizado con SVGO (floatPrecision 1,
+  removeViewBox: false).
+  Peso 32 KB = 24,5 KB de SVG + 7,7 KB de manifiesto C2PA (Content
+  Credentials) que la plataforma agrega al descargar. Se CONSERVA:
+  no afecta el render y documenta el origen. No investigar de nuevo.
+Logo ORIGINAL (PNG 374 px, con hamburguesa): ERROR DE ORTOGRAFÍA
+  "Remordimento". Solo referencia histórica. No usar. Si aparece la
+  fuente en alta resolución, corregir ahí.
+Favicon: SVG simplificado (medallón + cara, sin texto ni espigas).
+  apple-touch-icon.png 180 px con fondo carbón (iOS no usa SVG).
+Paleta muestreada del flyer (a fijar como tokens en #2):
+  Rojo #B42423 · Rojo claro #D2382F · Rojo oscuro #7E1214
+  Oro #D9A441 · Oro claro #F2C46B · Oro oscuro #A8701F
+  Carbón #2B2B2B · Nube #D6E4EE · Contorno #1F2A44
 Tono: casero, celestial, cercano ("pa' comer aquí", "pa' llevar").
 Footer: siempre oscuro (estándar heredado).
- 
+
 ═══════════════════════════════════════════════════════════════════
- 
+
 ALCANCE V0 — PÁGINA INFORMATIVA (2-3 semanas)
 ───────────────────────────────────────────────────────────────────
 Secciones: Inicio · Productos · Contacto
 1. Hero con CTA llamativo: sopas los fines de semana.
-2. Inicio: descripción breve + precios
-     $3.5 pa' comer aquí · $4 pa' llevar
-3. Próxima fecha dinámica por JS:
-     Fecha base: domingo 04/10/2026. Cadencia semanal.
-     Si hoy es domingo → "Hoy"; si no → próximo domingo.
-     Cálculo en zona America/Caracas (Intl.DateTimeFormat), no en
-     la hora local del dispositivo.
-     Sin backend, el menú de cada semana (sancocho de costilla, etc.)
-     es fijo en el código hasta que exista panel.
-4. Carrusel: fotos de sopa de costilla + slide "Próximamente:
-     Sueños al Horno — tus sueños horneados en deliciosos postres".
-5. Sección pedidos: CTA WhatsApp (patrón Sueños al Horno: número
-     en config, mensaje pre-cargado, botón flotante).
-6. Footer: redes sociales + © año dinámico (new Date().getFullYear())
-     + "Created by mhenriquez.com".
- 
+2. Inicio: descripción breve + precios $3.5 pa' comer aquí · $4 pa' llevar
+3. Próxima fecha dinámica por JS: base domingo 04/10/2026, cadencia
+   semanal. Domingo → "Hoy"; si no → próximo domingo. Zona
+   America/Caracas (Intl.DateTimeFormat). Menú fijo en código.
+4. Carrusel: fotos de sopa de costilla + slide "Próximamente: Sueños
+   al Horno — tus sueños horneados en deliciosos postres".
+5. Pedidos: CTA WhatsApp (patrón Sueños al Horno: número en config,
+   mensaje pre-cargado, botón flotante).
+6. Footer: redes + © año dinámico + "Created by mhenriquez.com".
+7. Open Graph para WhatsApp (ver reglas abajo).
+
+REGLAS OPEN GRAPH:
+  og-image.jpg 1200×630, JPG, < 300 KB. WhatsApp NO renderiza SVG.
+  og:image con URL ABSOLUTA (el bot no conoce el base de Vite).
+  Tags: og:title, og:description, og:image, og:url, og:type,
+  og:locale=es_VE, og:site_name, twitter:card=summary_large_image.
+  WhatsApp cachea el primer preview: NO compartir el link hasta que
+  OG esté en producción. Cambio de imagen → renombrar (og-image-v2).
+  Cambio a dominio propio → actualizar todas las URL absolutas.
+
 ═══════════════════════════════════════════════════════════════════
- 
+
 DATOS PENDIENTES DE MANUEL (bloquean contenido, no estructura)
 ───────────────────────────────────────────────────────────────────
-  - ¿Sábado y domingo, o solo domingo? (flyer dice domingo; el
-    requerimiento dice "fines de semana").
+  - ¿Sábado y domingo, o solo domingo?
   - Número de WhatsApp (formato internacional, 58...).
   - URLs de redes sociales.
   - Fotos reales de la sopa (el flyer no sirve para carrusel).
-  - "Comentarios": en estático NO se pueden recibir comentarios de
-    clientes. Opciones: testimonios fijos en código, o solo CTA a
-    WhatsApp. Comentarios reales = backend = Fase I.
- 
+  - "Comentarios": en estático NO se reciben. Testimonios fijos o
+    solo CTA WhatsApp. Comentarios reales = backend = Fase I.
+  - Compra del dominio en plural (Namecheap).
+
 ═══════════════════════════════════════════════════════════════════
- 
+
+ESTADO ACTUAL — Sprint 0 (milestone sprint-0, entrega 09/10/2026)
+───────────────────────────────────────────────────────────────────
+#1 Fundación (Infraestructura) — CERRADO 04/10/2026. En producción.
+#2 Marca: logo SVG + tokens (Front-end) — EN PROGRESO
+   Rama: feature/marca-logo-tokens (LOCAL, SIN PUSH)
+   Hecho:  bc7e1e9 docs referencia de marca
+           c71b23c logo SVG optimizado
+           114bc2a favicon + apple-touch-icon
+   Falta:  tokens @theme con la paleta · fuentes Fontsource (sin CDN)
+           · @source not "../../docs" y README.md (Tailwind escanea
+           todo y genera CSS muerto) · og-image.jpg + meta OG ·
+           <link> de favicons + logo en index.html · build/preview ·
+           merge, deploy, verificación, cierre.
+   Agregar al checklist en Project 29: ítem Open Graph.
+#3 Página V0 (Front-end) — POR CREAR al cerrar #2.
+
+Últimos commits master: b640761 merge chore/fundacion-sitio (#1)
+
+═══════════════════════════════════════════════════════════════════
+
+DEUDA TÉCNICA / ESTÁNDAR
+───────────────────────────────────────────────────────────────────
+  - 03 BUG #10 dice actions@v4: OBSOLETO. Node 20 eliminado de los
+    runners en sept. 2026. Actualizar a checkout/setup-node v6 y
+    acciones de Pages v5/v6.
+  - CI de Sueños al Horno con el mismo problema → deuda en ESE proyecto.
+  - Logo original con error ortográfico en circulación (flyer impreso).
+  - Commit 834becd: amend + force push sobre master publicado. Sin
+    daño (repo solo). Regla: --amend solo en commits no publicados.
+
+LECCIONES DE LA JORNADA:
+  - Rama ANTES de tocar archivos (el flyer se movió en master).
+  - Nombres de archivo dicen lo que son (flyer ≠ logo).
+  - Nunca commit en el mismo bloque que una verificación.
+  - Documentos con bloques de código anidados → cerca de 4 backticks.
+  - Vite dev/preview redirige "/" al base (no da 404).
+
+═══════════════════════════════════════════════════════════════════
+
 HORIZONTE
 ───────────────────────────────────────────────────────────────────
 Panel admin con inventario → Laravel Fase I (estándar 01).
-Criterio de salto: cuando el menú o el inventario necesiten
-  editarse sin tocar código.
-Al migrar: componentes Tailwind se portan a Blade; Pages se retira
-  o queda como landing.
- 
-═══════════════════════════════════════════════════════════════════
- 
-ESTADO ACTUAL
-───────────────────────────────────────────────────────────────────
-ISSUES: ninguno. MILESTONES: ninguno.
-Siguiente paso: milestone sprint-0 → issue de fundación → rama.
- 
+Criterio de salto: menú o inventario editables sin tocar código.
+Al migrar: Tailwind/@theme se porta a Blade; public/ se copia a
+public/ de Laravel; Pages se retira o queda como landing.
+
 ═══════════════════════════════════════════════════════════════════
 FIN DEL CONTEXTO — actualizar solo este archivo entre chats
 ═══════════════════════════════════════════════════════════════════
