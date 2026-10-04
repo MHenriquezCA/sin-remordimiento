@@ -1,0 +1,12 @@
+# Normalización de finales de línea: LF en repo y en disco.
+# Independiente de core.autocrlf de cada máquina.
+* text=auto eol=lf
+
+# Binarios explícitos: Git nunca los toca ni intenta hacer diff.
+*.jpg  binary
+*.jpeg binary
+*.png  binary
+*.webp binary
+*.gif  binary
+*.ico  binary
+*.woff2 binary

@@ -1,0 +1,18 @@
+# Dependencias
+node_modules/
+
+# Build de Vite (lo genera GitHub Actions, no se versiona)
+dist/
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operativo
+Thumbs.db
+.DS_Store
