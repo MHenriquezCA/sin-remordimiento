@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sin Remordimiento — Sazón Celestial. Sopas caseras los fines de semana.">
-    <meta name="theme-color" content="#2B2B2B">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sin Remordimiento — Sazón Celestial. Sopas caseras los fines de semana." />
+    <meta name="theme-color" content="#2B2B2B" />
     <title>Sin Remordimiento — Sazón Celestial</title>
 
     <!-- Iconos: SVG para navegadores modernos, PNG para iOS (no usa SVG) -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!--
+        Open Graph — vista previa en WhatsApp y redes.
+        URLs ABSOLUTAS: el bot no conoce el base de Vite.
+        WhatsApp cachea la primera vista previa: si cambia la imagen,
+        renombrar (og-image-v2.jpg). Con dominio propio, actualizar URLs.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sin Remordimiento" />
+    <meta property="og:locale" content="es_VE" />
+    <meta property="og:title" content="Sin Remordimiento — Sazón Celestial" />
+    <meta property="og:description" content="Sopas caseras los fines de semana. Pa' comer aquí o pa' llevar." />
+    <meta property="og:url" content="https://mhenriquezca.github.io/sin-remordimiento/" />
+    <meta property="og:image" content="https://mhenriquezca.github.io/sin-remordimiento/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Logo de Sin Remordimiento — Sazón Celestial: sopas caseras los fines de semana" />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <script type="module" src="/src/main.js"></script>
 </head>
@@ -17,7 +36,13 @@
     <main class="flex-1 grid place-items-center p-6 text-center">
         <div>
             <h1>
-                <img src="/logo.svg" width="512" height="512" alt="Sin Remordimiento — Sazón Celestial" class="mx-auto w-56 h-auto md:w-72">
+                <img
+                    src="/logo.svg"
+                    width="512"
+                    height="512"
+                    alt="Sin Remordimiento — Sazón Celestial"
+                    class="mx-auto w-56 h-auto md:w-72"
+                />
             </h1>
             <p class="mt-4 font-titulo text-2xl font-bold text-oro">Sopas caseras los fines de semana</p>
             <p class="mt-2 italic">Sitio en construcción</p>
