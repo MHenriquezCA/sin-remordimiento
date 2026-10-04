@@ -1,4 +1,13 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+
+/*
+ * Fuentes de clases — lista blanca explícita.
+ * La detección automática escaneaba docs/, public/*.svg y
+ * .github/ y generaba utilidades muertas (transform, contents).
+ * Toda página HTML nueva en la raíz debe agregarse aquí.
+ */
+@source "../../index.html";
+@source "../";
 
 /*
  * Tokens de marca — Sin Remordimiento
