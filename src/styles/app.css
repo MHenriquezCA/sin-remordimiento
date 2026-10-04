@@ -1,1 +1,52 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+
+/*
+ * Fuentes de clases — lista blanca explícita.
+ * La detección automática escaneaba docs/, public/*.svg y
+ * .github/ y generaba utilidades muertas (transform, contents).
+ * Toda página HTML nueva en la raíz debe agregarse aquí.
+ */
+@source "../../index.html";
+@source "../";
+
+/*
+ * Tokens de marca — Sin Remordimiento
+ * Paleta muestreada del flyer (docs/brand/flyer-2026-10-04.jpeg).
+ * Tailwind v4 genera utilidades desde cada --color-*:
+ * bg-rojo, text-oro-claro, border-contorno, etc.
+ */
+@theme {
+    /* Rojo — medallón */
+    --color-rojo: #B42423;
+    --color-rojo-claro: #D2382F;
+    --color-rojo-oscuro: #7E1214;
+
+    /* Oro — aros y espigas */
+    --color-oro: #D9A441;
+    --color-oro-claro: #F2C46B;
+    --color-oro-oscuro: #A8701F;
+
+    /* Neutros */
+    --color-carbon: #2B2B2B;
+    --color-nube: #D6E4EE;
+    --color-contorno: #1F2A44;
+
+    /*
+     * Tipografía por rol — mismas familias que el logo.
+     * Archivos cargados en src/main.js (Fontsource).
+     * Utilidades: font-titulo, font-cuerpo.
+     */
+    --font-titulo: "Poppins", ui-sans-serif, system-ui, sans-serif;
+    --font-cuerpo: "Lora Variable", Georgia, ui-serif, serif;
+}
+
+/* Fuente por defecto del sitio y de los encabezados */
+@layer base {
+    body {
+        @apply font-cuerpo;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-titulo;
+    }
+}
