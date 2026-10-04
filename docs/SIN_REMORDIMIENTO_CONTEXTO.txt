@@ -1,0 +1,123 @@
+CONTEXTO — SIN REMORDIMIENTOS
+Versión: 1.0 · Fecha: 04/10/2026
+Solo información específica de este proyecto.
+Los universales (stack, metodología, bugs, frontend) están en 01, 02, 03, 05 y 06.
+═══════════════════════════════════════════════════════════════════
+ 
+DATOS DEL PROYECTO
+───────────────────────────────────────────────────────────────────
+Nombre:   Sin Remordimiento — "Sazón Celestial" (RESUELTO 04/10/2026)
+          Singular en marca, logo, repo y carpeta.
+          Plural SOLO en el dominio (singular tomado en Namecheap).
+Giro:     Comida casera — sopas los fines de semana
+Relación: Proyecto hermano de Sueños al Horno (MHenriquezCA/suenosalhorno).
+          Infraestructura y objetivos SEPARADOS. Solo comparten estándar.
+Dev:      Manuel HenrIquez
+Repo:     github.com/MHenriquezCA/sin-remordimiento (PÚBLICO)
+Local:    C:\Users\manue\Documents\Devs\web\sin-remordimiento
+Rama:     master
+Estado:   Sprint 0 — Fundación (repo recién creado, sin código)
+Dirección física: Diagonal al portón negro de Villa Sur
+ 
+═══════════════════════════════════════════════════════════════════
+ 
+ARQUITECTURA (decisión D1 — RESUELTA 04/10/2026)
+───────────────────────────────────────────────────────────────────
+Fase actual: SITIO ESTÁTICO (previo a Fase I). Sin backend.
+Stack:
+  Vite (instalado, no CDN) + Tailwind CSS v4 vía @tailwindcss/vite
+  JavaScript vanilla (sin Alpine por ahora; entra si se justifica)
+  HTML5 semántico, Mobile First, tokens de marca con @theme
+Descartados:
+  Tailwind por CDN → no apto para producción, fuera del estándar.
+  CSS puro → obliga a reescribir al migrar a Laravel.
+Razón: el proyecto escalará a panel admin con inventario (Laravel
+  Fase I). Tailwind v4 + @theme se porta directo a Blade.
+ 
+Hosting: GitHub Pages
+Deploy:  GitHub Actions — push a master → npm ci → npm run build
+         → publica dist/ en Pages.
+         dist/ en .gitignore (el build NO se versiona; difiere de
+         Sueños al Horno porque aquí el CI sí tiene Node).
+Vite base: '/sin-remordimiento/' mientras se sirva desde
+         mhenriquezca.github.io. Con dominio propio → base: '/'.
+ 
+Entorno local (EXCEPCIÓN al estándar, justificada 04/10/2026):
+  Windows · C:\Users\manue\Documents\Devs\web\<carpeta del clone>
+  Razón: sitio estático sin PHP, BD ni servicios. WSL2 no aporta nada.
+  Node 22 LTS global (v22.22.0) · npm 10.9.4 · terminal Git Bash.
+  CI con node-version: 22 (misma versión mayor que local).
+  .gitattributes: * text=auto eol=lf (Actions corre en Linux).
+  Dev server con --host (BUG #18) para pruebas en Honor X8c.
+  Al migrar a Laravel Fase I: el proyecto pasa a Sail/WSL2 (~/).
+ 
+═══════════════════════════════════════════════════════════════════
+ 
+IDENTIDAD DE MARCA (a validar con el logo final)
+───────────────────────────────────────────────────────────────────
+Logo original: medallón redondo rojo con borde dorado, espigas de
+  trigo doradas, mascota nube con gorro de chef y aureola, tenedor
+  con hamburguesa, cinta "Sin Remordimiento" + "Sazón Celestial".
+Logo requerido: mismo medallón, SIN hamburguesa → plato de sopa
+  humeante en su lugar. Recrear en SVG.
+Paleta tentativa (extraída del flyer, confirmar):
+  Rojo medallón · Dorado borde/espigas · Carbón #2B2B2B (fondo logo)
+  · Blanco nube · Tonos atardecer (cielo del flyer)
+Tono: casero, celestial, cercano ("pa' comer aquí", "pa' llevar").
+Footer: siempre oscuro (estándar heredado).
+ 
+═══════════════════════════════════════════════════════════════════
+ 
+ALCANCE V0 — PÁGINA INFORMATIVA (2-3 semanas)
+───────────────────────────────────────────────────────────────────
+Secciones: Inicio · Productos · Contacto
+1. Hero con CTA llamativo: sopas los fines de semana.
+2. Inicio: descripción breve + precios
+     $3.5 pa' comer aquí · $4 pa' llevar
+3. Próxima fecha dinámica por JS:
+     Fecha base: domingo 04/10/2026. Cadencia semanal.
+     Si hoy es domingo → "Hoy"; si no → próximo domingo.
+     Cálculo en zona America/Caracas (Intl.DateTimeFormat), no en
+     la hora local del dispositivo.
+     Sin backend, el menú de cada semana (sancocho de costilla, etc.)
+     es fijo en el código hasta que exista panel.
+4. Carrusel: fotos de sopa de costilla + slide "Próximamente:
+     Sueños al Horno — tus sueños horneados en deliciosos postres".
+5. Sección pedidos: CTA WhatsApp (patrón Sueños al Horno: número
+     en config, mensaje pre-cargado, botón flotante).
+6. Footer: redes sociales + © año dinámico (new Date().getFullYear())
+     + "Created by mhenriquez.com".
+ 
+═══════════════════════════════════════════════════════════════════
+ 
+DATOS PENDIENTES DE MANUEL (bloquean contenido, no estructura)
+───────────────────────────────────────────────────────────────────
+  - ¿Sábado y domingo, o solo domingo? (flyer dice domingo; el
+    requerimiento dice "fines de semana").
+  - Número de WhatsApp (formato internacional, 58...).
+  - URLs de redes sociales.
+  - Fotos reales de la sopa (el flyer no sirve para carrusel).
+  - "Comentarios": en estático NO se pueden recibir comentarios de
+    clientes. Opciones: testimonios fijos en código, o solo CTA a
+    WhatsApp. Comentarios reales = backend = Fase I.
+ 
+═══════════════════════════════════════════════════════════════════
+ 
+HORIZONTE
+───────────────────────────────────────────────────────────────────
+Panel admin con inventario → Laravel Fase I (estándar 01).
+Criterio de salto: cuando el menú o el inventario necesiten
+  editarse sin tocar código.
+Al migrar: componentes Tailwind se portan a Blade; Pages se retira
+  o queda como landing.
+ 
+═══════════════════════════════════════════════════════════════════
+ 
+ESTADO ACTUAL
+───────────────────────────────────────────────────────────────────
+ISSUES: ninguno. MILESTONES: ninguno.
+Siguiente paso: milestone sprint-0 → issue de fundación → rama.
+ 
+═══════════════════════════════════════════════════════════════════
+FIN DEL CONTEXTO — actualizar solo este archivo entre chats
+═══════════════════════════════════════════════════════════════════
