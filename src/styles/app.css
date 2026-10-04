@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+/*
+ * Tokens de marca — Sin Remordimiento
+ * Paleta muestreada del flyer (docs/brand/flyer-2026-10-04.jpeg).
+ * Tailwind v4 genera utilidades desde cada --color-*:
+ * bg-rojo, text-oro-claro, border-contorno, etc.
+ */
+@theme {
+    /* Rojo — medallón */
+    --color-rojo: #B42423;
+    --color-rojo-claro: #D2382F;
+    --color-rojo-oscuro: #7E1214;
+
+    /* Oro — aros y espigas */
+    --color-oro: #D9A441;
+    --color-oro-claro: #F2C46B;
+    --color-oro-oscuro: #A8701F;
+
+    /* Neutros */
+    --color-carbon: #2B2B2B;
+    --color-nube: #D6E4EE;
+    --color-contorno: #1F2A44;
+}
