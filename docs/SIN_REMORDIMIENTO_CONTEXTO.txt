@@ -1,5 +1,5 @@
 CONTEXTO — SIN REMORDIMIENTO
-Versión: 1.1 · Fecha: 04/10/2026
+Versión: 1.2 · Fecha: 04/10/2026
 Solo información específica de este proyecto.
 Los universales (stack, metodología, bugs, frontend) están en 01, 02, 03, 05 y 06.
 ═══════════════════════════════════════════════════════════════════
@@ -26,6 +26,7 @@ ARQUITECTURA (D1 — RESUELTA 04/10/2026)
 Fase actual: SITIO ESTÁTICO (previo a Fase I). Sin backend.
 Stack: Vite 8.3.2 + Tailwind CSS 4.3.3 (@tailwindcss/vite), instalados.
        JavaScript vanilla. HTML5 semántico, Mobile First, tokens @theme.
+       Fuentes: Fontsource (sin CDN), importadas en src/main.js.
 Descartados: Tailwind CDN (no apto producción) · CSS puro (reescritura
        al migrar a Laravel).
 Hosting: GitHub Pages, build_type=workflow (activado vía gh api).
@@ -33,18 +34,34 @@ Deploy:  .github/workflows/deploy.yml — push a master → Node 22 → npm ci
          → npm run build → upload-pages-artifact → deploy-pages.
          Acciones: checkout@v6, setup-node@v6, configure-pages@v6,
          upload-pages-artifact@v5, deploy-pages@v5 (Node 24 nativo).
-         dist/ en .gitignore. Primer deploy: verde, 34 s.
+         dist/ en .gitignore. Deploys: #1 34 s · #2 33 s, ambos verdes.
 Vite base: '/sin-remordimiento/'. Con dominio propio → '/'.
-Barrera pre-merge (no hay tests): npm run build + npm run preview.
+         Vite reescribe rutas "/" en href/src del index.html; NO toca
+         URLs absolutas con https:// (las de Open Graph).
+Barrera pre-merge (no hay tests): npm run build + npm run preview
+         + auditoría de rama (status, log, EOL, diff contra master).
+
+TAILWIND — FUENTES DE CLASES EN LISTA BLANCA:
+  @import "tailwindcss" source(none);
+  @source "../../index.html";  @source "../";
+  La detección automática escaneaba docs/, public/*.svg y .github/
+  y generaba utilidades muertas (transform, contents: -0,49 kB).
+  Toda página HTML nueva en la raíz DEBE agregarse como @source.
+  Rutas de @source relativas al CSS (src/styles/), no a la raíz.
 
 Entorno local (EXCEPCIÓN justificada 04/10/2026):
   Windows · Git Bash · Node 22.22.0 de Laragon (herramienta global
   justificada) · npm 10.9.4.
   Razón: sitio estático sin PHP, BD ni servicios. WSL2 no aporta nada.
   Al migrar a Laravel Fase I: el proyecto pasa a Sail/WSL2 (~/).
-  Dev: npm run dev (--host). Honor X8c por la IP Wi-Fi 192.168.10.10.
-  Formato: .editorconfig (4 espacios, LF, UTF-8; requiere extensión
-  EditorConfig en VS Code) + .gitattributes (* text=auto eol=lf).
+  Dev: npm run dev (--host). Preview: npm run preview -- --host.
+  Honor X8c por la IP Wi-Fi 192.168.10.10.
+  Formato: .editorconfig (4 espacios, LF, UTF-8) + .gitattributes
+  (* text=auto eol=lf; binarios con -text).
+  Extensión EditorConfig for VS Code INSTALADA 04/10/2026 (v0.18.2).
+  Sin ella VS Code ignoraba el .editorconfig y guardaba en CRLF.
+  core.autocrlf=true en ~/.gitconfig global: inofensivo aquí porque
+  .gitattributes manda. Ver deuda de estándar.
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -54,15 +71,17 @@ ESTRUCTURA ACTUAL
 docs/  SIN_REMORDIMIENTO_CONTEXTO.txt · starter-kit-docker-wsl2-laravel.md
        brand/flyer-2026-10-04.jpeg · logo-original-2026.png
              · logo-v1-sin-optimizar.svg   (referencia, fuera del build)
-public/ logo.svg · favicon.svg · apple-touch-icon.png   (rama #2)
-src/   main.js · styles/app.css (@import "tailwindcss")
-index.html · vite.config.js · package.json · README.md
+public/ logo.svg · favicon.svg · apple-touch-icon.png · og-image.jpg
+src/   main.js (fuentes Fontsource + import del CSS)
+       styles/app.css (source(none) + @source + @theme + @layer base)
+index.html (placeholder con marca + meta OG) · vite.config.js
+package.json · README.md
 
 ═══════════════════════════════════════════════════════════════════
 
 IDENTIDAD DE MARCA
 ───────────────────────────────────────────────────────────────────
-Logo VIGENTE: public/logo.svg (aprobado 04/10/2026).
+Logo VIGENTE: public/logo.svg (aprobado 04/10/2026). viewBox 512×512.
   Medallón rojo, doble aro dorado, espigas, nube chef con aureola y
   guiño, plato de sopa humeante (sin hamburguesa).
   Texto convertido a trazos: Poppins Bold (nombre) + Lora Bold
@@ -71,15 +90,35 @@ Logo VIGENTE: public/logo.svg (aprobado 04/10/2026).
   Peso 32 KB = 24,5 KB de SVG + 7,7 KB de manifiesto C2PA (Content
   Credentials) que la plataforma agrega al descargar. Se CONSERVA:
   no afecta el render y documenta el origen. No investigar de nuevo.
+  En index.html: el logo ES el <h1> (alt = nombre accesible),
+  width/height 512 contra layout shift, w-56 / md:w-72.
 Logo ORIGINAL (PNG 374 px, con hamburguesa): ERROR DE ORTOGRAFÍA
   "Remordimento". Solo referencia histórica. No usar. Si aparece la
   fuente en alta resolución, corregir ahí.
 Favicon: SVG simplificado (medallón + cara, sin texto ni espigas).
-  apple-touch-icon.png 180 px con fondo carbón (iOS no usa SVG).
-Paleta muestreada del flyer (a fijar como tokens en #2):
-  Rojo #B42423 · Rojo claro #D2382F · Rojo oscuro #7E1214
-  Oro #D9A441 · Oro claro #F2C46B · Oro oscuro #A8701F
-  Carbón #2B2B2B · Nube #D6E4EE · Contorno #1F2A44
+  viewBox 64×64. apple-touch-icon.png 180 px con fondo carbón
+  (iOS no usa SVG). theme-color #2B2B2B.
+
+TOKENS DE COLOR (@theme, src/styles/app.css) — FIJADOS 04/10/2026:
+  --color-rojo #B42423 · --color-rojo-claro #D2382F · --color-rojo-oscuro #7E1214
+  --color-oro  #D9A441 · --color-oro-claro  #F2C46B · --color-oro-oscuro  #A8701F
+  --color-carbon #2B2B2B · --color-nube #D6E4EE · --color-contorno #1F2A44
+  Utilidades: bg-rojo, text-oro-claro, border-contorno...
+  Sin escala numérica (nueve colores de marca, no un sistema 50–950).
+  Paleta por defecto de Tailwind CONSERVADA (sin --color-*: initial).
+
+TIPOGRAFÍA (Fontsource, sin CDN) — FIJADA 04/10/2026:
+  --font-titulo: "Poppins" → títulos, botones, precios. Pesos 600 y 700.
+    (@fontsource/poppins 5.3.0 — Poppins NO tiene versión variable.)
+  --font-cuerpo: "Lora Variable" → cuerpo y tono casero. 400–700,
+    normal + itálica. (@fontsource-variable/lora 5.3.0)
+    El nombre es "Lora Variable", NO "Lora": si no, cae en Georgia.
+  @layer base: body → font-cuerpo · h1–h6 → font-titulo.
+  Pesos en el marcado (font-semibold / font-bold), no en la base.
+  Build: todos los subsets declarados con unicode-range; el navegador
+  baja solo latin (verificado en Network). Poppins trae .woff de
+  respaldo que los navegadores modernos no descargan.
+
 Tono: casero, celestial, cercano ("pa' comer aquí", "pa' llevar").
 Footer: siempre oscuro (estándar heredado).
 
@@ -98,25 +137,39 @@ Secciones: Inicio · Productos · Contacto
 5. Pedidos: CTA WhatsApp (patrón Sueños al Horno: número en config,
    mensaje pre-cargado, botón flotante).
 6. Footer: redes + © año dinámico + "Created by mhenriquez.com".
-7. Open Graph para WhatsApp (ver reglas abajo).
+7. Open Graph — HECHO en #2 (ver abajo).
+
+OPEN GRAPH — EN PRODUCCIÓN 04/10/2026, verificado en WhatsApp:
+  public/og-image.jpg 1200×630, JPG progresivo, 60 006 B
+  (54 KB de imagen + ~5,7 KB de C2PA agregado en la descarga; se
+  conserva, mismo caso que el logo). Composición centrada: el recorte
+  cuadrado de WhatsApp muestra el medallón completo.
+  Contenido: logo + "Sopas caseras los fines de semana" (Poppins, oro)
+  + "pa' comer aquí · pa' llevar" (Lora itálica, nube).
+  Tags: og:type, og:site_name, og:locale=es_VE, og:title,
+  og:description, og:url (con / final), og:image + :type :width
+  :height :alt, twitter:card=summary_large_image.
 
 REGLAS OPEN GRAPH:
-  og-image.jpg 1200×630, JPG, < 300 KB. WhatsApp NO renderiza SVG.
-  og:image con URL ABSOLUTA (el bot no conoce el base de Vite).
-  Tags: og:title, og:description, og:image, og:url, og:type,
-  og:locale=es_VE, og:site_name, twitter:card=summary_large_image.
-  WhatsApp cachea el primer preview: NO compartir el link hasta que
-  OG esté en producción. Cambio de imagen → renombrar (og-image-v2).
+  WhatsApp NO renderiza SVG → JPG < 300 KB.
+  og:image y og:url con URL ABSOLUTA (el bot no conoce el base de Vite).
+  og:image:width/height obligatorios en la práctica: sin ellos el
+  primer escaneo puede salir sin imagen, y el primero es el cacheado.
+  WhatsApp cachea la vista previa COMPLETA (imagen + título +
+  descripción). NADA volátil en OG: ni precios ni días concretos.
+  Cambio de imagen → renombrar (og-image-v2.jpg).
   Cambio a dominio propio → actualizar todas las URL absolutas.
 
 ═══════════════════════════════════════════════════════════════════
 
 DATOS PENDIENTES DE MANUEL (bloquean contenido, no estructura)
 ───────────────────────────────────────────────────────────────────
-  - ¿Sábado y domingo, o solo domingo?
+  - ¿Sábado y domingo, o solo domingo? (Si es solo domingo, la OG
+    dice "fines de semana": impreciso, no falso. Corregir en v2.)
   - Número de WhatsApp (formato internacional, 58...).
   - URLs de redes sociales.
   - Fotos reales de la sopa (el flyer no sirve para carrusel).
+    Con fotos → og-image-v2.jpg con la sopa (vende más en WhatsApp).
   - "Comentarios": en estático NO se reciben. Testimonios fijos o
     solo CTA WhatsApp. Comentarios reales = backend = Fase I.
   - Compra del dominio en plural (Namecheap).
@@ -126,20 +179,16 @@ DATOS PENDIENTES DE MANUEL (bloquean contenido, no estructura)
 ESTADO ACTUAL — Sprint 0 (milestone sprint-0, entrega 09/10/2026)
 ───────────────────────────────────────────────────────────────────
 #1 Fundación (Infraestructura) — CERRADO 04/10/2026. En producción.
-#2 Marca: logo SVG + tokens (Front-end) — EN PROGRESO
-   Rama: feature/marca-logo-tokens (LOCAL, SIN PUSH)
-   Hecho:  bc7e1e9 docs referencia de marca
-           c71b23c logo SVG optimizado
-           114bc2a favicon + apple-touch-icon
-   Falta:  tokens @theme con la paleta · fuentes Fontsource (sin CDN)
-           · @source not "../../docs" y README.md (Tailwind escanea
-           todo y genera CSS muerto) · og-image.jpg + meta OG ·
-           <link> de favicons + logo en index.html · build/preview ·
-           merge, deploy, verificación, cierre.
-   Agregar al checklist en Project 29: ítem Open Graph.
-#3 Página V0 (Front-end) — POR CREAR al cerrar #2.
+#2 Marca: logo SVG + tokens (Front-end) — CERRADO 04/10/2026.
+   En producción. Merge 9ba96d6 (9 commits, bc7e1e9..0a17999).
+   Rama feature/marca-logo-tokens eliminada (nunca se subió).
+#3 Página V0 (Front-end) — POR CREAR.
+   Reemplaza el placeholder de index.html (logo + tagline +
+   "Sitio en construcción"). Conservar el <head> completo.
 
-Últimos commits master: b640761 merge chore/fundacion-sitio (#1)
+Últimos commits master:
+  9ba96d6 merge feature/marca-logo-tokens (#2)
+  b640761 merge chore/fundacion-sitio (#1)
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -152,13 +201,29 @@ DEUDA TÉCNICA / ESTÁNDAR
   - Logo original con error ortográfico en circulación (flyer impreso).
   - Commit 834becd: amend + force push sobre master publicado. Sin
     daño (repo solo). Regla: --amend solo en commits no publicados.
+  - ESTÁNDAR (01/03): core.autocrlf=true global (default de Git for
+    Windows) escribe CRLF en todo repo SIN .gitattributes. Decidir:
+    mantener true + .gitattributes obligatorio, o cambiar a input.
+  - ESTÁNDAR (01): agregar la extensión EditorConfig for VS Code como
+    requisito del entorno. Sin ella el .editorconfig es decorativo.
 
-LECCIONES DE LA JORNADA:
+LECCIONES:
   - Rama ANTES de tocar archivos (el flyer se movió en master).
   - Nombres de archivo dicen lo que son (flyer ≠ logo).
   - Nunca commit en el mismo bloque que una verificación.
   - Documentos con bloques de código anidados → cerca de 4 backticks.
   - Vite dev/preview redirige "/" al base (no da 404).
+  - Medir antes de editar: la exclusión prevista (@source not docs)
+    no habría bastado; public/ y .github/ también contaminaban.
+  - Excluir por lista negra no escala → lista blanca (source(none)).
+  - Un warning repetido (CRLF) suele tener causa raíz: aquí era la
+    extensión EditorConfig ausente + autocrlf=true.
+  - Copia local en CRLF con contenido idéntico al índice:
+    rm + git restore (seguro solo si git status sale limpio).
+  - git ls-files --eol para auditar finales de línea del repo entero.
+  - gh run watch justo después del push → "no in progress runs":
+    carrera, el run aún no existe. Usar gh run list primero.
+  - grep -c cuenta líneas, no apariciones: inútil en CSS minificado.
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -168,6 +233,8 @@ Panel admin con inventario → Laravel Fase I (estándar 01).
 Criterio de salto: menú o inventario editables sin tocar código.
 Al migrar: Tailwind/@theme se porta a Blade; public/ se copia a
 public/ de Laravel; Pages se retira o queda como landing.
+  Ojo: source(none) + @source deben reescribirse a las rutas de
+  resources/views/ al migrar.
 
 ═══════════════════════════════════════════════════════════════════
 FIN DEL CONTEXTO — actualizar solo este archivo entre chats
