@@ -34,6 +34,10 @@ export const servicio = {
     // Días según Date.getDay(): 0 = domingo, 6 = sábado.
     // PENDIENTE: confirmar si también se atiende sábado → [6, 0].
     dias: [0],
+    // Hora de cierre en formato 'HH:MM' (24 h, hora de Caracas).
+    // Pasada esa hora, el sitio anuncia el próximo día de servicio.
+    // PENDIENTE: dato real. null = "Hoy" durante todo el día.
+    horaCierre: null,
 };
 
 export const menu = [
