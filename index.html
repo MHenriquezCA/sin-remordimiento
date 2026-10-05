@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="motion-safe:scroll-smooth">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,21 +32,137 @@
 
     <script type="module" src="/src/main.js"></script>
 </head>
-<body class="min-h-screen bg-carbon text-nube flex flex-col">
-    <main class="flex-1 grid place-items-center p-6 text-center">
-        <div>
-            <h1>
-                <img
-                    src="/logo.svg"
-                    width="512"
-                    height="512"
-                    alt="Sin Remordimiento — Sazón Celestial"
-                    class="mx-auto w-56 h-auto md:w-72"
-                />
-            </h1>
-            <p class="mt-4 font-titulo text-2xl font-bold text-oro">Sopas caseras los fines de semana</p>
-            <p class="mt-2 italic">Sitio en construcción</p>
-        </div>
+<body class="bg-nube text-carbon antialiased">
+    <a
+        href="#contenido"
+        class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-oro focus:px-4 focus:py-2 focus:font-titulo focus:font-semibold focus:text-carbon"
+    >Saltar al contenido</a>
+
+    <header class="sticky top-0 z-40 bg-carbon/95 text-nube backdrop-blur">
+        <nav aria-label="Principal" class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
+            <a href="#inicio" aria-label="Sin Remordimiento, ir al inicio" class="flex items-center gap-2 font-titulo font-bold text-oro-claro">
+                <img src="/favicon.svg" width="32" height="32" alt="" class="size-8" />
+                <span class="hidden sm:inline">Sin Remordimiento</span>
+            </a>
+            <ul class="flex gap-4 font-titulo text-sm font-semibold sm:gap-6 sm:text-base">
+                <li><a href="#inicio" class="hover:text-oro-claro">Inicio</a></li>
+                <li><a href="#productos" class="hover:text-oro-claro">Productos</a></li>
+                <li><a href="#contacto" class="hover:text-oro-claro">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="contenido">
+        <!-- Hero -->
+        <section id="inicio" class="scroll-mt-16 bg-carbon text-nube">
+            <div class="mx-auto max-w-5xl px-4 py-12 text-center md:py-16">
+                <h1>
+                    <img
+                        src="/logo.svg"
+                        width="512"
+                        height="512"
+                        alt="Sin Remordimiento — Sazón Celestial"
+                        class="mx-auto h-auto w-56 md:w-72"
+                    />
+                </h1>
+                <p class="mt-6 font-titulo text-2xl font-bold text-oro md:text-3xl">Sopas caseras los fines de semana</p>
+                <p class="mt-3 text-lg">
+                    Próxima olla:
+                    <time data-proxima-fecha class="font-titulo font-semibold text-oro-claro">Domingo</time>
+                </p>
+                <a
+                    href="#contacto"
+                    data-whatsapp
+                    class="mt-8 inline-block rounded-full bg-rojo px-8 py-3 font-titulo text-lg font-bold text-nube shadow-lg hover:bg-rojo-claro focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-oro"
+                >Haz tu pedido</a>
+            </div>
+        </section>
+
+        <!-- Descripción y precios -->
+        <section aria-labelledby="titulo-casa" class="bg-nube">
+            <div class="mx-auto max-w-3xl px-4 py-12 text-center">
+                <h2 id="titulo-casa" class="text-3xl font-bold text-rojo">Sazón de casa, sin remordimiento</h2>
+                <p class="mt-4 text-lg">
+                    Sopas hechas en olla grande, con calma y como en casa.
+                    Ven a comer aquí o llévatela calientita.
+                </p>
+                <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+                    <li class="rounded-2xl bg-carbon p-6 text-nube">
+                        <p class="font-titulo text-4xl font-bold text-oro-claro">$3,50</p>
+                        <p class="mt-1 text-lg italic">pa' comer aquí</p>
+                    </li>
+                    <li class="rounded-2xl bg-carbon p-6 text-nube">
+                        <p class="font-titulo text-4xl font-bold text-oro-claro">$4,00</p>
+                        <p class="mt-1 text-lg italic">pa' llevar</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Productos -->
+        <section id="productos" aria-labelledby="titulo-productos" class="scroll-mt-16 border-t-2 border-carbon/10 bg-nube">
+            <div class="mx-auto max-w-3xl px-4 py-12">
+                <h2 id="titulo-productos" class="text-center text-3xl font-bold text-rojo">Nuestras sopas</h2>
+
+                <section aria-roledescription="carrusel" aria-label="Fotos de nuestras sopas" class="mt-8">
+                    <div data-carrusel>
+                        <p class="rounded-2xl bg-carbon p-8 text-center text-nube">Fotos de la sopa próximamente.</p>
+                    </div>
+                </section>
+
+                <ul class="mt-8 space-y-4">
+                    <li class="rounded-2xl border-2 border-carbon/10 p-6">
+                        <h3 class="text-xl font-bold">Sopa de costilla</h3>
+                        <p class="mt-1">Caldo casero de costilla, hecho con calma y sin atajos.</p>
+                        <a
+                            href="#contacto"
+                            data-whatsapp="Hola, quiero pedir sopa de costilla."
+                            class="mt-4 inline-block font-titulo font-semibold text-rojo underline underline-offset-4 hover:text-rojo-oscuro"
+                        >Pedir esta sopa</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Contacto -->
+        <section id="contacto" aria-labelledby="titulo-contacto" class="scroll-mt-16 bg-rojo text-nube">
+            <div class="mx-auto max-w-3xl px-4 py-12 text-center">
+                <h2 id="titulo-contacto" class="text-3xl font-bold text-oro-claro">Haz tu pedido</h2>
+                <p class="mt-4 text-lg">Escríbenos por WhatsApp y te apartamos tu sopa.</p>
+                <a
+                    href="#contacto"
+                    data-whatsapp
+                    class="mt-6 inline-block rounded-full bg-carbon px-8 py-3 font-titulo text-lg font-bold text-oro-claro hover:bg-contorno focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-oro"
+                >Pedir por WhatsApp</a>
+                <address class="mt-8 not-italic">
+                    <p class="font-titulo font-semibold">¿Dónde estamos?</p>
+                    <p class="mt-1">Diagonal al portón negro de Villa Sur</p>
+                </address>
+            </div>
+        </section>
     </main>
+
+    <!-- Botón flotante de pedido -->
+    <a
+        href="#contacto"
+        data-whatsapp
+        aria-label="Pedir por WhatsApp"
+        class="fixed right-4 bottom-4 z-50 grid size-14 place-items-center rounded-full bg-rojo text-nube shadow-xl ring-2 ring-oro hover:bg-rojo-claro focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-oro"
+    >
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-7">
+            <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z" />
+        </svg>
+    </a>
+
+    <!-- Footer: siempre oscuro (estándar). pb-24 deja aire al botón flotante. -->
+    <footer class="bg-carbon pb-24 text-nube">
+        <div class="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 pt-10 text-center text-sm">
+            <ul data-redes class="flex gap-4 empty:hidden"></ul>
+            <p>© <span data-anio>2026</span> Sin Remordimiento — Sazón Celestial</p>
+            <p>
+                <a href="https://mhenriquez.com" class="underline underline-offset-4 hover:text-oro-claro">Created by mhenriquez.com</a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
